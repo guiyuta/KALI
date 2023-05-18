@@ -1,0 +1,35 @@
+IP ALVO 10.10.165.132
+
+pesquisar por 10.10.165.132/robots.txt -> e um padrao de sites
+UmbracoIsTheBest!
+
+# Use for all search robots
+User-agent: *
+
+# Define the directories not to crawl
+Disallow: /bin/
+Disallow: /config/
+Disallow: /umbraco/
+Disallow: /umbraco_client/
+
+Identificar que tem o email do autor na descricao 
+jd@anthem.com
+
+-ir na area de TI e vai ter um poema
+-verificar que o autor nao esta certo e colocar o poema no google e ira aparecer o verdadeiro autor 
+- solomon grudy e o verdadeiro autor 
+sg@anthem.com
+
+rdesktop `cat ip` -u sg -p UmbracoIsTheBest!
+- comando para acessar remotamente a maquina
+
+-dentro do power shell da maquina executar o "dir -force" ira mostrar arquivos ocultos
+
+- dentro de explorador de arquivo, ativar os itens ocultos 
+
+- dentro do disco C, ira ter uma pasta backup que o ususario nao tem permissao, porem apenas mudando as propriedades do usuario isso muda, ir em seguranca -> editar -> adicionar o usuario sg -> ok 
+- apos abrir o arquivo : ChangeMeBaby1MoreTime
+
+- apos conseguir a senha ir em users -> administrador e colocar a senha acima 
+
+- apos conseugir acesso como administrador vasculhar as pastas (flag root vai estar na area de trabalho)
