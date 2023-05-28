@@ -1,0 +1,18 @@
+Ligar a VPN 
+
+Depois entrar no IP 
+
+Dar um nmap para ver quais portas estao abertas 
+
+gobuster para verificar quais links estao open
+
+verificar o servidor ftp e tentar colocar um arquivo dentro 
+
+caso o ftp nao esteja aberta, tentar o comando hydra para ficar testando as senhas para o usuario 
+ex: hydra -l jake -P /usr/share/wordlists/rockyou.txt ssh://`cat ip`
+
+depois de encontrar a senha do usuario logar por ssh 
+
+sudo -l -> identifica se tem algum sudo que nao precisa de senha 
+
+find / -name user.txt 2>/dev/null

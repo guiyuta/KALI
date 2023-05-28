@@ -1,0 +1,23 @@
+SQL Injection 
+
+Normal - tenho resposta (visual), exemplo, vai dar algum erro, algum resposta sera retornada.
+Blind - nao tenho feedback
+
+Primeiro SQL Injection pede um numero inteiro, entao:
+user: 0'OR 1=1-- (1=1 e usado porque e uma funcao true, entao retornara alguma informacao)
+senha: qualquer uma 
+
+Segunda SQL 
+user: 10' or 1=1-- (pede uma string, entao colocamos a aspas simples no final)
+senha: qualquer uma 
+
+Terceira SQL Injection seria atraves da URL
+-Como no frontend nao aceita caracteres especiais no usuario, entao tentamos direto na url
+ficou: 10.10.50.127:5000/sesqli3/login?profileID=hacker' or 1=1--&password=123
+
+Quarta SQL Injection
+- Foi utilizado o Burp Suite
+- No firefox na opcao de proxy foi configurado manualmente para o 127.0.0.1:8080, que e a porta configurada no Burp
+- Foi utilizado qualquer usuario e senha e logo em seguida o Burp e aberto automaticamente, toda informacao digitada no firefox passara pelo proxy do Burp primeiro
+- Entao dentro do Burp da para realizar o login com login: ' or 1=1-- (mesma situacao) 
+

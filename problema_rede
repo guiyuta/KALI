@@ -1,0 +1,3 @@
+sudo mousepad /etc/resolve.conf
+
+nameserver 8.8.8.8
